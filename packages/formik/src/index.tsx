@@ -3,6 +3,7 @@ export * from './Field';
 export * from './Form';
 export * from './withFormik';
 export * from './FieldArray';
+export * from './FieldArrayItem';
 export * from './utils';
 export * from './types';
 export * from './connect';
