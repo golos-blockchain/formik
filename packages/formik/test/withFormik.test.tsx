@@ -80,6 +80,7 @@ describe('withFormik()', () => {
       values: {
         name: InitialValues.name,
       },
+      applyFieldValue: expect.any(Function),
       dirty: false,
       errors: {},
       handleBlur: expect.any(Function),
@@ -179,6 +180,7 @@ describe('withFormik()', () => {
       expect(handleSubmit).toHaveBeenCalledWith(
         { name: 'jared' },
         {
+          applyFieldValue: expect.any(Function),
           props: myProps,
           resetForm: expect.any(Function),
           setErrors: expect.any(Function),

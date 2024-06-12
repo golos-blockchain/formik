@@ -93,6 +93,8 @@ export interface FormikHelpers<Values> {
   ) => void;
   /** Set value of form field directly */
   setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void;
+  /** Set value of form field, and touch it, to show ErrorMessage immediately */
+  applyFieldValue: (field: string, value: any, shouldValidate?: boolean, isTouched?: boolean) => void;
   /** Set error message of a form field directly */
   setFieldError: (field: string, message: string | undefined) => void;
   /** Set whether field has been touched directly */
@@ -296,6 +298,8 @@ export interface FieldMetaProps<Value> {
 export interface FieldHelperProps<Value> {
   /** Set the field's value */
   setValue: (value: Value, shouldValidate?: boolean) => void;
+  /** Set the field's value, and touch it, to trigger ErrorMessage showing immediately */
+  applyValue: (value: any, shouldValidate?: boolean, isTouched?: boolean) => void
   /** Set the field's touched value */
   setTouched: (value: boolean, shouldValidate?: boolean) => void;
   /** Set the field's error value */

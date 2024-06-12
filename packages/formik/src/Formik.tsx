@@ -672,6 +672,18 @@ export function useFormik<Values extends FormikValues = FormikValues>({
     }
   );
 
+  const applyFieldValue = React.useCallback(
+    (field: string, value: any, shouldValidate?: boolean, isTouched?: boolean) => {
+      const prom = setFieldValue(field, value, false) as Promise<any>
+      prom.then(() => {
+        if (shouldValidate === undefined) shouldValidate = true
+        if (isTouched === undefined) isTouched = true
+        setFieldTouched(field, isTouched, shouldValidate)
+      })
+    },
+    [setFieldValue, setFieldTouched]
+  )
+
   const executeBlur = React.useCallback(
     (e: any, path?: string) => {
       if (e.persist) {
@@ -837,6 +849,7 @@ export function useFormik<Values extends FormikValues = FormikValues>({
     setFieldError,
     setFieldTouched,
     setFieldValue,
+    applyFieldValue,
     setStatus,
     setSubmitting,
     setTouched,
@@ -880,12 +893,14 @@ export function useFormik<Values extends FormikValues = FormikValues>({
       return {
         setValue: (value: any, shouldValidate?: boolean) =>
           setFieldValue(name, value, shouldValidate),
+        applyValue: (value: any, shouldValidate?: boolean, isTouched?: boolean) =>
+          applyFieldValue(name, value, shouldValidate, isTouched),
         setTouched: (value: boolean, shouldValidate?: boolean) =>
           setFieldTouched(name, value, shouldValidate),
         setError: (value: any) => setFieldError(name, value),
       };
     },
-    [setFieldValue, setFieldTouched, setFieldError]
+    [setFieldValue, applyFieldValue, setFieldTouched, setFieldError]
   );
 
   const getFieldProps = React.useCallback(
@@ -962,6 +977,7 @@ export function useFormik<Values extends FormikValues = FormikValues>({
     setFormikState,
     setFieldTouched,
     setFieldValue,
+    applyFieldValue,
     setFieldError,
     setStatus,
     setSubmitting,
