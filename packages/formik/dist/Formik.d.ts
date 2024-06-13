@@ -20,6 +20,7 @@ export declare function useFormik<Values extends FormikValues = FormikValues>({ 
     setFormikState: (stateOrCb: FormikState<Values> | ((state: FormikState<Values>) => FormikState<Values>)) => void;
     setFieldTouched: (field: string, touched?: boolean, shouldValidate?: boolean | undefined) => Promise<FormikErrors<Values>> | Promise<void>;
     setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<FormikErrors<Values>> | Promise<void>;
+    applyFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined, isTouched?: boolean | undefined) => void;
     setFieldError: (field: string, value: string | undefined) => void;
     setStatus: (status: any) => void;
     setSubmitting: (isSubmitting: boolean) => void;

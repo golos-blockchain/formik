@@ -770,6 +770,14 @@ function useFormik(_ref) {
     var willValidate = shouldValidate === undefined ? validateOnBlur : shouldValidate;
     return willValidate ? validateFormWithHighPriority(state.values) : Promise.resolve();
   });
+  var applyFieldValue = useCallback(function (field, value, shouldValidate, isTouched) {
+    var prom = setFieldValue(field, value, false);
+    prom.then(function () {
+      if (shouldValidate === undefined) shouldValidate = true;
+      if (isTouched === undefined) isTouched = true;
+      setFieldTouched(field, isTouched, shouldValidate);
+    });
+  }, [setFieldValue, setFieldTouched]);
   var executeBlur = useCallback(function (e, path) {
     if (e.persist) {
       e.persist();
@@ -931,6 +939,7 @@ function useFormik(_ref) {
     setFieldError: setFieldError,
     setFieldTouched: setFieldTouched,
     setFieldValue: setFieldValue,
+    applyFieldValue: applyFieldValue,
     setStatus: setStatus,
     setSubmitting: setSubmitting,
     setTouched: setTouched,
@@ -967,6 +976,9 @@ function useFormik(_ref) {
       setValue: function setValue(value, shouldValidate) {
         return setFieldValue(name, value, shouldValidate);
       },
+      applyValue: function applyValue(value, shouldValidate, isTouched) {
+        return applyFieldValue(name, value, shouldValidate, isTouched);
+      },
       setTouched: function setTouched(value, shouldValidate) {
         return setFieldTouched(name, value, shouldValidate);
       },
@@ -974,7 +986,7 @@ function useFormik(_ref) {
         return setFieldError(name, value);
       }
     };
-  }, [setFieldValue, setFieldTouched, setFieldError]);
+  }, [setFieldValue, applyFieldValue, setFieldTouched, setFieldError]);
   var getFieldProps = useCallback(function (nameOrOptions) {
     var isAnObject = isObject(nameOrOptions);
     var name = isAnObject ? nameOrOptions.name : nameOrOptions;
@@ -1031,6 +1043,7 @@ function useFormik(_ref) {
     setFormikState: setFormikState,
     setFieldTouched: setFieldTouched,
     setFieldValue: setFieldValue,
+    applyFieldValue: applyFieldValue,
     setFieldError: setFieldError,
     setStatus: setStatus,
     setSubmitting: setSubmitting,
